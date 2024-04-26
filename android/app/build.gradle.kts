@@ -14,6 +14,9 @@ plugins {
     id(Dependencies.Plugin.ksp) version Versions.Plugin.ksp
     id(Dependencies.Plugin.junit5) version Versions.Plugin.junit5
     id(Dependencies.Plugin.composeCompiler) version Versions.kotlin
+    // id("com.android.application")
+    // id("androidx.baselineprofile")
+    id(Dependencies.Plugin.baselineProfileId)
 }
 
 val repoRootPath = rootProject.projectDir.absoluteFile.parentFile.absolutePath
@@ -86,6 +89,12 @@ android {
             initWith(buildTypes.getByName(BuildTypes.DEBUG))
             applicationIdSuffix = ".leakcanary"
             matchingFallbacks += BuildTypes.DEBUG
+        }
+        create(BuildTypes.BENCHMARK) {
+            initWith(buildTypes.getByName(BuildTypes.BENCHMARK))
+            isMinifyEnabled = true
+            signingConfig = null
+            matchingFallbacks += BuildTypes.RELEASE
         }
     }
 
@@ -253,7 +262,8 @@ androidComponents {
                     enabledAppVariantTriples.map { (billing, infra, buildType) ->
                         billing + infra.capitalized() + buildType.capitalized()
                     }
-                enabledVariants.contains(currentVariant.name)
+                val required = listOf("ossProdBenchmarkRelease", "playProdBenchmarkRelease", "playDevmoleBenchmarkRelease", "ossProdBenchmarkFdroid", "playStagemoleBenchmarkRelease")
+                enabledVariants.contains(currentVariant.name) or required.contains(currentVariant.name)
             }
     }
 }
@@ -320,6 +330,8 @@ dependencies {
     implementation(project(Dependencies.Mullvad.tileService))
     implementation(project(Dependencies.Mullvad.themeLib))
     implementation(project(Dependencies.Mullvad.vpnService))
+    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
+    "baselineProfile"(project(":baselineprofile"))
 
     // Play implementation
     playImplementation(project(Dependencies.Mullvad.billingLib))
@@ -378,4 +390,10 @@ dependencies {
     androidTestImplementation(Dependencies.MockK.android)
     androidTestImplementation(Dependencies.junitApi)
     androidTestImplementation(Dependencies.Compose.junit5)
+}
+
+baselineProfile {
+    //mergeIntoMain = true
+    saveInSrc = true
+    automaticGenerationDuringBuild = false
 }

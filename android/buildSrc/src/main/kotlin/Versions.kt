@@ -60,6 +60,7 @@ object Versions {
         // https://github.com/gradle/gradle/issues/19228
         const val android = "8.3.0"
         const val androidAapt = "$android-10880808"
+        const val baselineProfile = "1.2.4"
         const val playPublisher = "3.9.0"
         const val protobuf = "0.9.4"
         const val dependencyCheck = "10.0.3"
