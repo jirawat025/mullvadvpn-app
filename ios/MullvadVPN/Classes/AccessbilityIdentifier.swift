@@ -183,6 +183,9 @@ public enum AccessibilityIdentifier: String {
     case quantumResistanceOff
     case quantumResistanceOn
 
+    // Multihop
+    case multihopEnableSwitch
+
     // Error
     case unknown
 }

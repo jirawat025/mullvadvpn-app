@@ -176,6 +176,15 @@ class VPNSettingsViewController: UITableViewController, VPNSettingsDataSourceDel
                 comment: ""
             )
 
+        case .multihop:
+            message = NSLocalizedString(
+                "VPN_SETTINGS_MULTIHOP_GENERAL",
+                tableName: "MULTIHOP",
+                value: """
+                This setting increases latency. Use only if needed
+                """,
+                comment: ""
+            )
         default:
             assertionFailure("No matching InfoButtonItem")
         }

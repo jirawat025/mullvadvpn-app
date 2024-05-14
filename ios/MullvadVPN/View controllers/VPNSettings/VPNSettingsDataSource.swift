@@ -23,6 +23,7 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
         case wireGuardObfuscation
         case wireGuardObfuscationPort
         case quantumResistance
+        case multihop
         var reusableViewClass: AnyClass {
             switch self {
             case .dnsSettings:
@@ -39,6 +40,8 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
                 return SelectableSettingsCell.self
             case .quantumResistance:
                 return SelectableSettingsCell.self
+            case .multihop:
+                return SettingsSwitchCell.self
             }
         }
     }
@@ -60,6 +63,10 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
         #if DEBUG
         case quantumResistance
         #endif
+
+        #if DEBUG
+        case multiHop
+        #endif
     }
 
     enum Item: Hashable {
@@ -76,6 +83,7 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
         case quantumResistanceOn
         case quantumResistanceOff
         #endif
+        case multihop(_ state: MultihopState)
 
         static var wireGuardPorts: [Item] {
             let defaultPorts = VPNSettingsViewModel.defaultWireGuardPorts.map {
@@ -124,6 +132,8 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
             case .quantumResistanceOff:
                 return .quantumResistanceOff
             #endif
+            case .multihop:
+                return .multihopEnableSwitch
             }
         }
 
@@ -145,6 +155,8 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
             case .quantumResistanceAutomatic, .quantumResistanceOn, .quantumResistanceOff:
                 return .quantumResistance
             #endif
+            case .multihop:
+                return .multihop
             }
         }
     }
@@ -175,6 +187,10 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
         }
         #endif
 
+        #if DEBUG
+        let multihopItem: Item = .multihop(viewModel.multihopState)
+        #endif
+
         let obfuscationPortItem: Item = .wireGuardObfuscationPort(viewModel.obfuscationPort.portValue)
 
         #if DEBUG
@@ -183,6 +199,7 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
             obfuscationStateItem,
             obfuscationPortItem,
             quantumResistanceItem,
+            multihopItem,
         ].compactMap { indexPath(for: $0) }
         #else
         return [
@@ -416,6 +433,10 @@ final class VPNSettingsDataSource: UITableViewDiffableDataSource<
         snapshot.appendSections(Section.allCases)
         snapshot.appendItems([.dnsSettings], toSection: .dnsSettings)
         snapshot.appendItems([.ipOverrides], toSection: .ipOverrides)
+        
+        #if DEBUG
+        snapshot.appendItems([.multihop(viewModel.multihopState)],toSection: .multiHop)
+        #endif
 
         applySnapshot(snapshot, animated: animated, completion: completion)
     }
@@ -619,6 +640,10 @@ extension VPNSettingsDataSource: VPNSettingsCellEventHandler {
 
     func selectQuantumResistance(_ state: TunnelQuantumResistance) {
         viewModel.setQuantumResistance(state)
+    }
+
+    func switchMultihop(_ state: MultihopState) {
+        viewModel.setMultihop(state)
     }
 }
 
