@@ -925,6 +925,8 @@
 		F0E8E4C92A604E7400ED26A3 /* AccountDeletionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8E4C82A604E7400ED26A3 /* AccountDeletionInteractor.swift */; };
 		F0EF50D32A8FA47E0031E8DF /* ChangeLogInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EF50D22A8FA47E0031E8DF /* ChangeLogInteractor.swift */; };
 		F0EF50D52A949F8E0031E8DF /* ChangeLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EF50D42A949F8E0031E8DF /* ChangeLogViewModel.swift */; };
+		F0F316192BF3572B0078DBCF /* RelaySelectorResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F316182BF3572B0078DBCF /* RelaySelectorResult.swift */; };
+		F0F3161B2BF358590078DBCF /* NoRelaysSatisfyingConstraintsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F3161A2BF358590078DBCF /* NoRelaysSatisfyingConstraintsError.swift */; };
 		F0FADDEA2BE90AAA000D0B02 /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1EF8C2BE8FF0A00CED01D /* LaunchArguments.swift */; };
 		F0FADDEB2BE90AAE000D0B02 /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1EF8C2BE8FF0A00CED01D /* LaunchArguments.swift */; };
 		F0FADDEC2BE90AB0000D0B02 /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F1EF8C2BE8FF0A00CED01D /* LaunchArguments.swift */; };
@@ -2112,6 +2114,8 @@
 		F0EF50D22A8FA47E0031E8DF /* ChangeLogInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeLogInteractor.swift; sourceTree = "<group>"; };
 		F0EF50D42A949F8E0031E8DF /* ChangeLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLogViewModel.swift; sourceTree = "<group>"; };
 		F0F1EF8C2BE8FF0A00CED01D /* LaunchArguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchArguments.swift; sourceTree = "<group>"; };
+		F0F316182BF3572B0078DBCF /* RelaySelectorResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaySelectorResult.swift; sourceTree = "<group>"; };
+		F0F3161A2BF358590078DBCF /* NoRelaysSatisfyingConstraintsError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoRelaysSatisfyingConstraintsError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4009,8 +4013,10 @@
 				F0DDE4272B220A15006B57A7 /* Haversine.swift */,
 				7A516C392B7111A700BBD33D /* IPOverrideWrapper.swift */,
 				F0DDE4292B220A15006B57A7 /* Midpoint.swift */,
+				F0F3161A2BF358590078DBCF /* NoRelaysSatisfyingConstraintsError.swift */,
 				5820675A26E6576800655B05 /* RelayCache.swift */,
 				F0DDE4282B220A15006B57A7 /* RelaySelector.swift */,
+				F0F316182BF3572B0078DBCF /* RelaySelectorResult.swift */,
 			);
 			path = Relay;
 			sourceTree = "<group>";
@@ -5029,6 +5035,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F05F39982B21C73C006E60A7 /* CachedRelays.swift in Sources */,
+				F0F316192BF3572B0078DBCF /* RelaySelectorResult.swift in Sources */,
 				F05F39972B21C735006E60A7 /* RelayCache.swift in Sources */,
 				A932D9EF2B5ADD0700999395 /* ProxyConfigurationTransportProvider.swift in Sources */,
 				06799AE728F98E4800ACD94E /* RESTURLSession.swift in Sources */,
@@ -5079,6 +5086,7 @@
 				F0164ED12B4F2DCB0020268D /* AccessMethodIterator.swift in Sources */,
 				A9D99B9A2A1F7C3200DE27D3 /* RESTTransport.swift in Sources */,
 				A90763BB2B2857D50045ADF0 /* Socks5AddressType.swift in Sources */,
+				F0F3161B2BF358590078DBCF /* NoRelaysSatisfyingConstraintsError.swift in Sources */,
 				06799AE028F98E4800ACD94E /* RESTCoding.swift in Sources */,
 				A90763B72B2857D50045ADF0 /* Socks5DataStreamHandler.swift in Sources */,
 				A90763B22B2857D50045ADF0 /* Socks5EndpointReader.swift in Sources */,

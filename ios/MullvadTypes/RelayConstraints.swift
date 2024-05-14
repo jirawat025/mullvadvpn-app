@@ -27,7 +27,7 @@ public struct RelayConstraints: Codable, Equatable {
     // Added in 2024.1
     // Changed from RelayLocations to UserSelectedRelays in 2024.3
     @available(*, deprecated, renamed: "exitLocations")
-    public var locations: RelayConstraint<UserSelectedRelays> = .only(UserSelectedRelays(locations: [.country("se")]))
+    private var locations: RelayConstraint<UserSelectedRelays> = .only(UserSelectedRelays(locations: [.country("se")]))
 
     // Added in 2024.5 to support multi-hop
     public var entryLocations: RelayConstraint<UserSelectedRelays>?
@@ -56,11 +56,6 @@ public struct RelayConstraints: Codable, Equatable {
         port = try container.decodeIfPresent(RelayConstraint<UInt16>.self, forKey: .port) ?? .any
         filter = try container.decodeIfPresent(RelayConstraint<RelayFilter>.self, forKey: .filter) ?? .any
 
-        // Added in 2024.1
-        locations = try container.decodeIfPresent(RelayConstraint<UserSelectedRelays>.self, forKey: .locations)
-            ?? Self.migrateRelayLocation(decoder: decoder)
-            ?? .only(UserSelectedRelays(locations: [.country("se")]))
-
         // Added in 2024.5
         entryLocations = try container.decodeIfPresent(
             RelayConstraint<UserSelectedRelays>.self,
@@ -68,7 +63,13 @@ public struct RelayConstraints: Codable, Equatable {
         ) ?? nil
 
         exitLocations = try container
-            .decodeIfPresent(RelayConstraint<UserSelectedRelays>.self, forKey: .exitLocations) ?? locations
+            .decodeIfPresent(RelayConstraint<UserSelectedRelays>.self, forKey: .exitLocations) ??
+            container.decodeIfPresent(
+                RelayConstraint<UserSelectedRelays>.self,
+                forKey: .locations
+            ) ??
+            Self.migrateRelayLocation(decoder: decoder)
+            ?? .only(UserSelectedRelays(locations: [.country("se")]))
     }
 }
 
