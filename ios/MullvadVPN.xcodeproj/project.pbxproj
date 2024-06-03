@@ -3,11 +3,26 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		011130362C0DBB820055B79C /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 011130352C0DBB820055B79C /* WireGuardKit */; };
+		0111303A2C0DBBB30055B79C /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 011130392C0DBBB30055B79C /* WireGuardKitTypes */; };
+		0111303B2C0DBBB30055B79C /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 011130392C0DBBB30055B79C /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0111303D2C0DBBDF0055B79C /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 0111303C2C0DBBDF0055B79C /* WireGuardKitTypes */; };
+		0111303E2C0DBBDF0055B79C /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0111303C2C0DBBDF0055B79C /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		011130402C0DBC8B0055B79C /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 0111303F2C0DBC8B0055B79C /* WireGuardKitTypes */; };
+		011130412C0DBC8B0055B79C /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0111303F2C0DBC8B0055B79C /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		01EF6F342B6A590700125696 /* libmullvad_api.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF6F332B6A590700125696 /* libmullvad_api.a */; };
+		01FE535D2C0DBDCD009E6DA1 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 01FE535C2C0DBDCD009E6DA1 /* WireGuardKitTypes */; };
+		01FE535E2C0DBDCD009E6DA1 /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 01FE535C2C0DBDCD009E6DA1 /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		01FE53602C0DBDE6009E6DA1 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 01FE535F2C0DBDE6009E6DA1 /* WireGuardKitTypes */; };
+		01FE53612C0DBDE6009E6DA1 /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 01FE535F2C0DBDE6009E6DA1 /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		01FE53632C0DBE05009E6DA1 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 01FE53622C0DBE05009E6DA1 /* WireGuardKitTypes */; };
+		01FE53642C0DBE05009E6DA1 /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 01FE53622C0DBE05009E6DA1 /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		01FE53662C0DBE24009E6DA1 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 01FE53652C0DBE24009E6DA1 /* WireGuardKitTypes */; };
+		01FE53672C0DBE24009E6DA1 /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 01FE53652C0DBE24009E6DA1 /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		062B45A328FD4CA700746E77 /* le_root_cert.cer in Resources */ = {isa = PBXBuildFile; fileRef = 06799AB428F98CE700ACD94E /* le_root_cert.cer */; };
 		062B45BC28FD8C3B00746E77 /* RESTDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062B45BB28FD8C3B00746E77 /* RESTDefaults.swift */; };
 		063687BA28EB234F00BE7161 /* PacketTunnelTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063687B928EB234F00BE7161 /* PacketTunnelTransport.swift */; };
@@ -151,7 +166,6 @@
 		58695AA02A4ADA9200328DB3 /* TunnelObfuscationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58695A9F2A4ADA9200328DB3 /* TunnelObfuscationTests.swift */; };
 		58695AA72A4B109F00328DB3 /* TunnelObfuscation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5840231F2A406BF5007B27AC /* TunnelObfuscation.framework */; };
 		586A0DCB2A20E359006C731C /* MullvadTypes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D223D5294C8E5E0029F5F8 /* MullvadTypes.framework */; };
-		586A0DD12A20E371006C731C /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 586A0DD02A20E371006C731C /* WireGuardKitTypes */; };
 		586A950C290125EE007BAF2B /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B9EB122488ED2100095626 /* AlertPresenter.swift */; };
 		586A950E290125F3007BAF2B /* ProductsRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5846226426E0D9630035F7C2 /* ProductsRequestOperation.swift */; };
 		586A950F29012BEE007BAF2B /* AddressCacheTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AC114028F841390037AF9A /* AddressCacheTracker.swift */; };
@@ -216,7 +230,6 @@
 		58906DE02445C7A5002F0673 /* NEProviderStopReason+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58906DDF2445C7A5002F0673 /* NEProviderStopReason+Debug.swift */; };
 		58907D9524D17B4E00CFC3F5 /* DisconnectSplitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58907D9424D17B4E00CFC3F5 /* DisconnectSplitButton.swift */; };
 		58915D682A25FA080066445B /* DeviceCheckRemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58915D672A25FA080066445B /* DeviceCheckRemoteService.swift */; };
-		58915D6E2A26037A0066445B /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 58915D6D2A26037A0066445B /* WireGuardKitTypes */; };
 		5891BF1C25E3E3EB006D6FB0 /* Bundle+ProductVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5891BF1B25E3E3EB006D6FB0 /* Bundle+ProductVersion.swift */; };
 		5891BF5125E66B1E006D6FB0 /* UIBarButtonItem+KeyboardNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5891BF5025E66B1E006D6FB0 /* UIBarButtonItem+KeyboardNavigation.swift */; };
 		5892A45E265FABFF00890742 /* EmptyTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5892A45D265FABFF00890742 /* EmptyTableViewHeaderFooterView.swift */; };
@@ -263,7 +276,6 @@
 		58B2FDE72AA71D5C003EB5C6 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06410E06292D108E00AFC18C /* SettingsStore.swift */; };
 		58B2FDE82AA71D5C003EB5C6 /* KeychainSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06410DFD292CE18F00AFC18C /* KeychainSettingsStore.swift */; };
 		58B2FDE92AA71D5C003EB5C6 /* SettingsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06410E03292D0F7100AFC18C /* SettingsParser.swift */; };
-		58B2FDEB2AA72049003EB5C6 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 58B2FDEA2AA72049003EB5C6 /* WireGuardKitTypes */; };
 		58B2FDEE2AA72098003EB5C6 /* ApplicationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BFA5CB22A7CE1F00A6173D /* ApplicationConfiguration.swift */; };
 		58B2FDEF2AA720C4003EB5C6 /* ApplicationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C76A072A33850E00100D75 /* ApplicationTarget.swift */; };
 		58B43C1925F77DB60002C8C3 /* TunnelControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B43C1825F77DB60002C8C3 /* TunnelControlView.swift */; };
@@ -419,10 +431,6 @@
 		58EFC76E2AFB3BDA00E9F4CB /* ListAccessMethodCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EFC76D2AFB3BDA00E9F4CB /* ListAccessMethodCoordinator.swift */; };
 		58EFC7712AFB45E500E9F4CB /* SettingsChildCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EFC7702AFB45E500E9F4CB /* SettingsChildCoordinator.swift */; };
 		58EFC7752AFB4CEF00E9F4CB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EFC7742AFB4CEF00E9F4CB /* AboutViewController.swift */; };
-		58F0974E2A20C31100DA2DAD /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 58F0974D2A20C31100DA2DAD /* WireGuardKitTypes */; };
-		58F0974F2A20C31100DA2DAD /* WireGuardKitTypes in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 58F0974D2A20C31100DA2DAD /* WireGuardKitTypes */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		58F097512A20C35000DA2DAD /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 58F097502A20C35000DA2DAD /* WireGuardKitTypes */; };
-		58F097542A20C36000DA2DAD /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 58F097532A20C36000DA2DAD /* WireGuardKit */; };
 		58F19E35228C15BA00C7710B /* SpinnerActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F19E34228C15BA00C7710B /* SpinnerActivityIndicatorView.swift */; };
 		58F2E144276A13F300A79513 /* StartTunnelOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2E143276A13F300A79513 /* StartTunnelOperation.swift */; };
 		58F2E146276A2C9900A79513 /* StopTunnelOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2E145276A2C9900A79513 /* StopTunnelOperation.swift */; };
@@ -696,8 +704,6 @@
 		A944F26A2B8DF32900473F4C /* PostQuantumKeyNegotiator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EB4F9C2B7FAB21002A2D7A /* PostQuantumKeyNegotiator.swift */; };
 		A944F2722B8E02F600473F4C /* libtalpid_tunnel_config_client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A944F2712B8E02E800473F4C /* libtalpid_tunnel_config_client.a */; };
 		A948809B2BC9308D0090A44C /* PostQuantumKeyExchangeActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A948809A2BC9308D0090A44C /* PostQuantumKeyExchangeActor.swift */; };
-		A94D691A2ABAD66700413DD4 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 58FE25E22AA72AE9003D1918 /* WireGuardKitTypes */; };
-		A94D691B2ABAD66700413DD4 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 58FE25E72AA7399D003D1918 /* WireGuardKitTypes */; };
 		A95EEE362B722CD600A8A39B /* TunnelMonitorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95EEE352B722CD600A8A39B /* TunnelMonitorState.swift */; };
 		A95EEE382B722DFC00A8A39B /* PingStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95EEE372B722DFC00A8A39B /* PingStats.swift */; };
 		A9630E3C2B8E0E7B00A65999 /* talpid_tunnel_config_client.h in Headers */ = {isa = PBXBuildFile; fileRef = A9630E3B2B8E0E7B00A65999 /* talpid_tunnel_config_client.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -826,7 +832,6 @@
 		A9BFB0012BD00B7F00F2BCA1 /* CustomListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BFB0002BD00B7F00F2BCA1 /* CustomListPage.swift */; };
 		A9C342C12ACC37E30045F00E /* TunnelStatusBlockObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0317D2ACC32920095D843 /* TunnelStatusBlockObserver.swift */; };
 		A9C342C32ACC3EE90045F00E /* RelayCacheTracker+Stubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C342C22ACC3EE90045F00E /* RelayCacheTracker+Stubs.swift */; };
-		A9D7E43C2BFCE43200213D55 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = A906F9492BA1E09A002BF22E /* WireGuardKitTypes */; };
 		A9D99B9A2A1F7C3200DE27D3 /* RESTTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FAE67D28F83CA50033DD93 /* RESTTransport.swift */; };
 		A9DF789B2B7D1DF10094E4AD /* mullvad-api.h in Headers */ = {isa = PBXBuildFile; fileRef = 01EF6F2D2B6A51B100125696 /* mullvad-api.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A9DF789D2B7D1E8B0094E4AD /* LoggedInWithTimeUITestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859089692B61763B003AF5F5 /* LoggedInWithTimeUITestCase.swift */; };
@@ -898,7 +903,6 @@
 		F0ACE3222BE4E4F2006D5333 /* APIProxy+Stubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A900E9BD2ACC654100C95F67 /* APIProxy+Stubs.swift */; };
 		F0ACE3232BE4E53B006D5333 /* MullvadREST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06799ABC28F98E1D00ACD94E /* MullvadREST.framework */; platformFilter = ios; };
 		F0ACE3262BE4E6C7006D5333 /* MullvadTypes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D223D5294C8E5E0029F5F8 /* MullvadTypes.framework */; platformFilter = ios; };
-		F0ACE3282BE4E712006D5333 /* WireGuardKitTypes in Frameworks */ = {isa = PBXBuildFile; productRef = F0ACE3272BE4E712006D5333 /* WireGuardKitTypes */; };
 		F0ACE32C2BE4E77E006D5333 /* DeviceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449EB9FC2B95F8AD00DFA4EB /* DeviceMock.swift */; };
 		F0ACE32D2BE4E784006D5333 /* AccountMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449EB9FE2B95FF2500DFA4EB /* AccountMock.swift */; };
 		F0ACE32F2BE4EA8B006D5333 /* MockProxyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ACE32E2BE4EA8B006D5333 /* MockProxyFactory.swift */; };
@@ -1239,12 +1243,45 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		011130422C0DBC8B0055B79C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				011130412C0DBC8B0055B79C /* WireGuardKitTypes in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01FE53682C0DBE24009E6DA1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				01FE53672C0DBE24009E6DA1 /* WireGuardKitTypes in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		01FE536C2C0DBE3B009E6DA1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06799AD628F98E1D00ACD94E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0111303B2C0DBBB30055B79C /* WireGuardKitTypes in Embed Frameworks */,
 				F0ACE3112BE4E478006D5333 /* MullvadMockData.framework in Embed Frameworks */,
 				58D223E7294C8F120029F5F8 /* MullvadTypes.framework in Embed Frameworks */,
 				58D223FA294C8FF10029F5F8 /* MullvadLogging.framework in Embed Frameworks */,
@@ -1255,7 +1292,6 @@
 				06799AD228F98E1D00ACD94E /* MullvadREST.framework in Embed Frameworks */,
 				58D223CD294C8BCB0029F5F8 /* Operations.framework in Embed Frameworks */,
 				58C7A44A2A863F490060C66F /* PacketTunnelCore.framework in Embed Frameworks */,
-				58F0974F2A20C31100DA2DAD /* WireGuardKitTypes in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1275,6 +1311,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				01FE53612C0DBDE6009E6DA1 /* WireGuardKitTypes in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1306,6 +1343,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0111303E2C0DBBDF0055B79C /* WireGuardKitTypes in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1336,6 +1374,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				01FE535E2C0DBDCD009E6DA1 /* WireGuardKitTypes in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1346,6 +1385,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				01FE53642C0DBE05009E6DA1 /* WireGuardKitTypes in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2157,9 +2197,9 @@
 			files = (
 				F0C3333C2B31A29C00D1A478 /* MullvadSettings.framework in Frameworks */,
 				58D223BF294C8AE90029F5F8 /* Operations.framework in Frameworks */,
-				586A0DD12A20E371006C731C /* WireGuardKitTypes in Frameworks */,
 				58D2241D294C91D20029F5F8 /* MullvadLogging.framework in Frameworks */,
 				58D223DC294C8EB90029F5F8 /* MullvadTypes.framework in Frameworks */,
+				01FE53602C0DBDE6009E6DA1 /* WireGuardKitTypes in Frameworks */,
 				F07C9D952B220C77006F1C5E /* libshadowsocks_proxy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2193,7 +2233,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58915D6E2A26037A0066445B /* WireGuardKitTypes in Frameworks */,
 				588E4EAE28FEEDD8008046E3 /* MullvadREST.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2202,8 +2241,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				011130402C0DBC8B0055B79C /* WireGuardKitTypes in Frameworks */,
 				58FE25BB2AA72188003D1918 /* MullvadLogging.framework in Frameworks */,
-				58B2FDEB2AA72049003EB5C6 /* WireGuardKitTypes in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2214,8 +2253,8 @@
 				A91D78E42B03C01600FCD5D3 /* MullvadSettings.framework in Frameworks */,
 				A91D78E32B03BDF200FCD5D3 /* TunnelObfuscation.framework in Frameworks */,
 				58238CB92AD57EC700768310 /* MullvadREST.framework in Frameworks */,
-				A94D691A2ABAD66700413DD4 /* WireGuardKitTypes in Frameworks */,
 				58FE65952AB1D90600E53CB5 /* MullvadTypes.framework in Frameworks */,
+				01FE53662C0DBE24009E6DA1 /* WireGuardKitTypes in Frameworks */,
 				58C7A45C2A8640490060C66F /* MullvadLogging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2224,7 +2263,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A94D691B2ABAD66700413DD4 /* WireGuardKitTypes in Frameworks */,
 				58C7A43E2A863F470060C66F /* PacketTunnelCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2233,9 +2271,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58F0974E2A20C31100DA2DAD /* WireGuardKitTypes in Frameworks */,
 				58C7A4492A863F490060C66F /* PacketTunnelCore.framework in Frameworks */,
 				58D223F9294C8FF00029F5F8 /* MullvadLogging.framework in Frameworks */,
+				0111303A2C0DBBB30055B79C /* WireGuardKitTypes in Frameworks */,
 				A944F2622B8DEFDB00473F4C /* MullvadPostQuantum.framework in Frameworks */,
 				58D223E6294C8F120029F5F8 /* MullvadTypes.framework in Frameworks */,
 				7ABCA5B32A9349F20044A708 /* Routing.framework in Frameworks */,
@@ -2252,12 +2290,12 @@
 			files = (
 				A9630E442B8E115A00A65999 /* MullvadPostQuantum.framework in Frameworks */,
 				589C6A7D2A45B06800DAD3EF /* TunnelObfuscation.framework in Frameworks */,
+				011130362C0DBB820055B79C /* WireGuardKit in Frameworks */,
 				58FE25C62AA72779003D1918 /* PacketTunnelCore.framework in Frameworks */,
 				58FE25CE2AA72802003D1918 /* MullvadSettings.framework in Frameworks */,
 				58D223EA294C8F3C0029F5F8 /* MullvadTypes.framework in Frameworks */,
 				58D223C6294C8B970029F5F8 /* Operations.framework in Frameworks */,
 				58153071294CBE8B00D1702E /* MullvadREST.framework in Frameworks */,
-				58F097542A20C36000DA2DAD /* WireGuardKit in Frameworks */,
 				58D22422294C921B0029F5F8 /* MullvadLogging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2281,7 +2319,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58F097512A20C35000DA2DAD /* WireGuardKitTypes in Frameworks */,
+				0111303D2C0DBBDF0055B79C /* WireGuardKitTypes in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2330,8 +2368,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9D7E43C2BFCE43200213D55 /* WireGuardKitTypes in Frameworks */,
 				A9630E432B8E10FB00A65999 /* MullvadTypes.framework in Frameworks */,
+				01FE535D2C0DBDCD009E6DA1 /* WireGuardKitTypes in Frameworks */,
 				A944F2722B8E02F600473F4C /* libtalpid_tunnel_config_client.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2341,7 +2379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0ACE3262BE4E6C7006D5333 /* MullvadTypes.framework in Frameworks */,
-				F0ACE3282BE4E712006D5333 /* WireGuardKitTypes in Frameworks */,
+				01FE53632C0DBE05009E6DA1 /* WireGuardKitTypes in Frameworks */,
 				F0ACE3232BE4E53B006D5333 /* MullvadREST.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4314,7 +4352,7 @@
 			);
 			name = MullvadREST;
 			packageProductDependencies = (
-				586A0DD02A20E371006C731C /* WireGuardKitTypes */,
+				01FE535F2C0DBDE6009E6DA1 /* WireGuardKitTypes */,
 			);
 			productName = MullvadREST;
 			productReference = 06799ABC28F98E1D00ACD94E /* MullvadREST.framework */;
@@ -4391,7 +4429,6 @@
 			);
 			name = MullvadVPNTests;
 			packageProductDependencies = (
-				58915D6D2A26037A0066445B /* WireGuardKitTypes */,
 			);
 			productName = MullvadVPNTests;
 			productReference = 58B0A2A0238EE67E00BC001D /* MullvadVPNTests.xctest */;
@@ -4404,6 +4441,7 @@
 				58B2FDCE2AA71D2A003EB5C6 /* Headers */,
 				58B2FDCF2AA71D2A003EB5C6 /* Sources */,
 				58B2FDD02AA71D2A003EB5C6 /* Frameworks */,
+				011130422C0DBC8B0055B79C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4412,7 +4450,7 @@
 			);
 			name = MullvadSettings;
 			packageProductDependencies = (
-				58B2FDEA2AA72049003EB5C6 /* WireGuardKitTypes */,
+				0111303F2C0DBC8B0055B79C /* WireGuardKitTypes */,
 			);
 			productName = Settings;
 			productReference = 58B2FDD32AA71D2A003EB5C6 /* MullvadSettings.framework */;
@@ -4426,6 +4464,7 @@
 				58C7A4322A863F440060C66F /* Sources */,
 				58C7A4332A863F440060C66F /* Frameworks */,
 				58C7A4342A863F440060C66F /* Resources */,
+				01FE53682C0DBE24009E6DA1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4437,7 +4476,7 @@
 			);
 			name = PacketTunnelCore;
 			packageProductDependencies = (
-				58FE25E22AA72AE9003D1918 /* WireGuardKitTypes */,
+				01FE53652C0DBE24009E6DA1 /* WireGuardKitTypes */,
 			);
 			productName = PacketTunnelCore;
 			productReference = 58C7A4362A863F440060C66F /* PacketTunnelCore.framework */;
@@ -4460,7 +4499,6 @@
 			);
 			name = PacketTunnelCoreTests;
 			packageProductDependencies = (
-				58FE25E72AA7399D003D1918 /* WireGuardKitTypes */,
 			);
 			productName = PacketTunnelCoreTests;
 			productReference = 58C7A43D2A863F460060C66F /* PacketTunnelCoreTests.xctest */;
@@ -4480,6 +4518,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				01FE53742C0DC00A009E6DA1 /* PBXTargetDependency */,
 				58D223E9294C8F120029F5F8 /* PBXTargetDependency */,
 				58D223F8294C8FF00029F5F8 /* PBXTargetDependency */,
 				06799AD028F98E1D00ACD94E /* PBXTargetDependency */,
@@ -4494,7 +4533,7 @@
 			);
 			name = MullvadVPN;
 			packageProductDependencies = (
-				58F0974D2A20C31100DA2DAD /* WireGuardKitTypes */,
+				011130392C0DBBB30055B79C /* WireGuardKitTypes */,
 			);
 			productName = MullvadVPN;
 			productReference = 58CE5E60224146200008646E /* MullvadVPN.app */;
@@ -4508,10 +4547,12 @@
 				58CE5E75224146470008646E /* Sources */,
 				58CE5E76224146470008646E /* Frameworks */,
 				58CE5E77224146470008646E /* Resources */,
+				01FE536C2C0DBE3B009E6DA1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				01FE53722C0DBFE3009E6DA1 /* PBXTargetDependency */,
 				58D223ED294C8F3D0029F5F8 /* PBXTargetDependency */,
 				58D22425294C921B0029F5F8 /* PBXTargetDependency */,
 				062B45A628FD4FD500746E77 /* PBXTargetDependency */,
@@ -4523,7 +4564,7 @@
 			);
 			name = PacketTunnel;
 			packageProductDependencies = (
-				58F097532A20C36000DA2DAD /* WireGuardKit */,
+				011130352C0DBB820055B79C /* WireGuardKit */,
 			);
 			productName = PacketTunnel;
 			productReference = 58CE5E79224146470008646E /* PacketTunnel.appex */;
@@ -4582,7 +4623,7 @@
 			);
 			name = MullvadTypes;
 			packageProductDependencies = (
-				58F097502A20C35000DA2DAD /* WireGuardKitTypes */,
+				0111303C2C0DBBDF0055B79C /* WireGuardKitTypes */,
 			);
 			productName = MullvadTypes;
 			productReference = 58D223D5294C8E5E0029F5F8 /* MullvadTypes.framework */;
@@ -4708,7 +4749,7 @@
 			);
 			name = MullvadPostQuantum;
 			packageProductDependencies = (
-				A906F9492BA1E09A002BF22E /* WireGuardKitTypes */,
+				01FE535C2C0DBDCD009E6DA1 /* WireGuardKitTypes */,
 			);
 			productName = MullvadPostQuantum;
 			productReference = A944F25C2B8DEFDB00473F4C /* MullvadPostQuantum.framework */;
@@ -4730,7 +4771,7 @@
 			);
 			name = MullvadMockData;
 			packageProductDependencies = (
-				F0ACE3272BE4E712006D5333 /* WireGuardKitTypes */,
+				01FE53622C0DBE05009E6DA1 /* WireGuardKitTypes */,
 			);
 			productName = MullvadMockData;
 			productReference = F0ACE3082BE4E478006D5333 /* MullvadMockData.framework */;
@@ -4841,7 +4882,7 @@
 			mainGroup = 58CE5E57224146200008646E;
 			packageReferences = (
 				585834F624D2BC1F00A8AF56 /* XCRemoteSwiftPackageReference "swift-log" */,
-				58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */,
+				011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */,
 			);
 			productRefGroup = 58CE5E61224146200008646E /* Products */;
 			projectDirPath = "";
@@ -6126,6 +6167,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		01FE53722C0DBFE3009E6DA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 01FE53712C0DBFE3009E6DA1 /* WireGuardKit */;
+		};
+		01FE53742C0DC00A009E6DA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 01FE53732C0DC00A009E6DA1 /* WireGuardKit */;
+		};
 		062B45A628FD4FD500746E77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06799ABB28F98E1D00ACD94E /* MullvadREST */;
@@ -9374,6 +9423,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../src/wireguard-apple";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		585834F624D2BC1F00A8AF56 /* XCRemoteSwiftPackageReference "swift-log" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -9383,31 +9439,57 @@
 				version = 1.4.0;
 			};
 		};
-		58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mullvad/wireguard-apple.git";
-			requirement = {
-				kind = revision;
-				revision = 11a00c20dc03f2751db47e94f585c0778c7bde82;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		586A0DD02A20E371006C731C /* WireGuardKitTypes */ = {
+		011130352C0DBB820055B79C /* WireGuardKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
+			productName = WireGuardKit;
+		};
+		011130392C0DBBB30055B79C /* WireGuardKitTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
 			productName = WireGuardKitTypes;
 		};
-		58915D6D2A26037A0066445B /* WireGuardKitTypes */ = {
+		0111303C2C0DBBDF0055B79C /* WireGuardKitTypes */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
 			productName = WireGuardKitTypes;
 		};
-		58B2FDEA2AA72049003EB5C6 /* WireGuardKitTypes */ = {
+		0111303F2C0DBC8B0055B79C /* WireGuardKitTypes */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
 			productName = WireGuardKitTypes;
+		};
+		01FE535C2C0DBDCD009E6DA1 /* WireGuardKitTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
+			productName = WireGuardKitTypes;
+		};
+		01FE535F2C0DBDE6009E6DA1 /* WireGuardKitTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
+			productName = WireGuardKitTypes;
+		};
+		01FE53622C0DBE05009E6DA1 /* WireGuardKitTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
+			productName = WireGuardKitTypes;
+		};
+		01FE53652C0DBE24009E6DA1 /* WireGuardKitTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
+			productName = WireGuardKitTypes;
+		};
+		01FE53712C0DBFE3009E6DA1 /* WireGuardKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
+			productName = WireGuardKit;
+		};
+		01FE53732C0DC00A009E6DA1 /* WireGuardKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 011130342C0DBB820055B79C /* XCLocalSwiftPackageReference "../../src/wireguard-apple" */;
+			productName = WireGuardKit;
 		};
 		58D22419294C90380029F5F8 /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -9418,41 +9500,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 585834F624D2BC1F00A8AF56 /* XCRemoteSwiftPackageReference "swift-log" */;
 			productName = Logging;
-		};
-		58F0974D2A20C31100DA2DAD /* WireGuardKitTypes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKitTypes;
-		};
-		58F097502A20C35000DA2DAD /* WireGuardKitTypes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKitTypes;
-		};
-		58F097532A20C36000DA2DAD /* WireGuardKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKit;
-		};
-		58FE25E22AA72AE9003D1918 /* WireGuardKitTypes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKitTypes;
-		};
-		58FE25E72AA7399D003D1918 /* WireGuardKitTypes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKitTypes;
-		};
-		A906F9492BA1E09A002BF22E /* WireGuardKitTypes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKitTypes;
-		};
-		F0ACE3272BE4E712006D5333 /* WireGuardKitTypes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58F097482A20C30000DA2DAD /* XCRemoteSwiftPackageReference "wireguard-apple" */;
-			productName = WireGuardKitTypes;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
