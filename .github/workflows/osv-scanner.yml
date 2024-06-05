@@ -34,11 +34,11 @@ permissions:
 jobs:
   scan-scheduled:
     if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' }}
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v1.7.1"
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v1.7.4"
     with:
       scan-args: -r --skip-git ./
   scan-pr:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'merge_group' }}
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v1.7.1"
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v1.7.4"
     with:
       scan-args: -r --skip-git ./
