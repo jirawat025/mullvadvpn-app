@@ -468,6 +468,30 @@ impl BridgeSettings {
     }
 }
 
+#[derive(Debug, Clone, Eq, PartialEq, Deserialize, Serialize)]
+pub enum Obfuscation {
+    Udp2Tcp(Udp2TcpObfuscationSettings),
+    Shadowsocks(ShadowsocksSettings),
+}
+
+impl Intersection for Obfuscation {
+    fn intersection(self, other: Self) -> Option<Self>
+    where
+        Self: PartialEq,
+        Self: Sized,
+    {
+        match (self, other) {
+            (Obfuscation::Udp2Tcp(self_inner), Obfuscation::Udp2Tcp(other_inner)) => {
+                Some(Obfuscation::Udp2Tcp(self_inner.intersection(other_inner)?))
+            }
+            (Obfuscation::Shadowsocks(self_inner), Obfuscation::Shadowsocks(other_inner)) => Some(
+                Obfuscation::Shadowsocks(self_inner.intersection(other_inner)?),
+            ),
+            _ => None,
+        }
+    }
+}
+
 #[derive(Debug, Default, Clone, Copy, Eq, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
@@ -544,6 +568,21 @@ pub struct ObfuscationSettings {
     pub selected_obfuscation: SelectedObfuscation,
     pub udp2tcp: Udp2TcpObfuscationSettings,
     pub shadowsocks: ShadowsocksSettings,
+}
+
+impl From<ObfuscationSettings> for Constraint<Option<Obfuscation>> {
+    fn from(value: ObfuscationSettings) -> Self {
+        match value.selected_obfuscation {
+            SelectedObfuscation::Auto => Constraint::Any,
+            SelectedObfuscation::Off => Constraint::Only(None),
+            SelectedObfuscation::Udp2Tcp => {
+                Constraint::Only(Some(Obfuscation::Udp2Tcp(value.udp2tcp)))
+            }
+            SelectedObfuscation::Shadowsocks => {
+                Constraint::Only(Some(Obfuscation::Shadowsocks(value.shadowsocks)))
+            }
+        }
+    }
 }
 
 /// Limits the set of bridge servers to use in `mullvad-daemon`.

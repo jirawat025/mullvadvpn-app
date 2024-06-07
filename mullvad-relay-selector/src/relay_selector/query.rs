@@ -32,9 +32,8 @@ use crate::AdditionalWireguardConstraints;
 use mullvad_types::{
     constraints::Constraint,
     relay_constraints::{
-        BridgeConstraints, LocationConstraint, OpenVpnConstraints, Ownership, Providers,
-        RelayConstraints, SelectedObfuscation, ShadowsocksSettings, TransportPort,
-        Udp2TcpObfuscationSettings, WireguardConstraints,
+        BridgeConstraints, LocationConstraint, Obfuscation, OpenVpnConstraints, Ownership,
+        Providers, RelayConstraints, TransportPort, WireguardConstraints,
     },
     Intersection,
 };
@@ -144,9 +143,7 @@ pub struct WireguardRelayQuery {
     pub ip_version: Constraint<IpVersion>,
     pub use_multihop: Constraint<bool>,
     pub entry_location: Constraint<LocationConstraint>,
-    pub obfuscation: SelectedObfuscation,
-    pub udp2tcp_port: Constraint<Udp2TcpObfuscationSettings>,
-    pub shadowsocks_port: Constraint<ShadowsocksSettings>,
+    pub obfuscation: Constraint<Option<Obfuscation>>,
     pub daita: Constraint<bool>,
 }
 
@@ -163,9 +160,7 @@ impl WireguardRelayQuery {
             ip_version: Constraint::Any,
             use_multihop: Constraint::Any,
             entry_location: Constraint::Any,
-            obfuscation: SelectedObfuscation::Auto,
-            udp2tcp_port: Constraint::Any,
-            shadowsocks_port: Constraint::Any,
+            obfuscation: Constraint::Any,
             daita: Constraint::Any,
         }
     }
@@ -300,8 +295,8 @@ pub mod builder {
     use mullvad_types::{
         constraints::Constraint,
         relay_constraints::{
-            BridgeConstraints, LocationConstraint, RelayConstraints, SelectedObfuscation,
-            ShadowsocksSettings, TransportPort, Udp2TcpObfuscationSettings,
+            BridgeConstraints, LocationConstraint, Obfuscation, RelayConstraints,
+            SelectedObfuscation, ShadowsocksSettings, TransportPort, Udp2TcpObfuscationSettings,
         },
     };
     use talpid_types::net::TunnelType;
@@ -490,7 +485,7 @@ pub mod builder {
     }
 
     impl<Multihop, Daita> RelayQueryBuilder<Wireguard<Multihop, Any, Daita>> {
-        /// Enable `UDP2TCP` obufscation. This will in turn enable the option to configure the
+        /// Enable `UDP2TCP` obfuscation. This will in turn enable the option to configure the
         /// `UDP2TCP` port.
         pub fn udp2tcp(
             mut self,
@@ -503,8 +498,8 @@ pub mod builder {
                 obfuscation: obfuscation.clone(),
                 daita: self.protocol.daita,
             };
-            self.query.wireguard_constraints.udp2tcp_port = Constraint::Only(obfuscation);
-            self.query.wireguard_constraints.obfuscation = SelectedObfuscation::Udp2Tcp;
+            self.query.wireguard_constraints.obfuscation =
+                Constraint::Only(Some(Obfuscation::Udp2Tcp(obfuscation)));
             RelayQueryBuilder {
                 query: self.query,
                 protocol,
@@ -524,8 +519,9 @@ pub mod builder {
                 obfuscation: obfuscation.clone(),
                 daita: self.protocol.daita,
             };
-            self.query.wireguard_constraints.shadowsocks_port = Constraint::Only(obfuscation);
-            self.query.wireguard_constraints.obfuscation = SelectedObfuscation::Shadowsocks;
+            self.query.wireguard_constraints.obfuscation =
+                Constraint::Only(Some(Obfuscation::Shadowsocks(obfuscation)));
+
             RelayQueryBuilder {
                 query: self.query,
                 protocol,
@@ -537,9 +533,11 @@ pub mod builder {
         /// Set the `UDP2TCP` port. This is the TCP port which the `UDP2TCP` obfuscation
         /// protocol should use to connect to a relay.
         pub fn udp2tcp_port(mut self, port: u16) -> Self {
-            self.protocol.obfuscation.port = Constraint::Only(port);
-            self.query.wireguard_constraints.udp2tcp_port =
-                Constraint::Only(self.protocol.obfuscation.clone());
+            self.protocol.obfuscation.port = Constraint::Only(port); // TODO: REMOVE?
+            self.query.wireguard_constraints.obfuscation =
+                Constraint::Only(Some(Obfuscation::Udp2Tcp(Udp2TcpObfuscationSettings {
+                    port: Constraint::Only(port),
+                })));
             self
         }
     }

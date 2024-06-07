@@ -5,8 +5,8 @@ use mullvad_types::{
     constraints::{Constraint, Match},
     custom_list::CustomListsSettings,
     relay_constraints::{
-        GeographicLocationConstraint, InternalBridgeConstraints, LocationConstraint, Ownership,
-        Providers, SelectedObfuscation,
+        GeographicLocationConstraint, InternalBridgeConstraints, LocationConstraint, Obfuscation,
+        Ownership, Providers, ShadowsocksSettings,
     },
     relay_list::{Relay, RelayEndpointData, WireguardRelayEndpointData},
 };
@@ -21,7 +21,6 @@ pub fn filter_matching_relay_list(
     relay_list: &ParsedRelays,
     custom_lists: &CustomListsSettings,
 ) -> Vec<Relay> {
-    let shadowsocks = &relay_list.parsed_list().wireguard.shadowsocks_port_ranges;
     let relays = relay_list.relays();
 
     let locations = ResolvedLocationConstraint::from_constraint(&query.location, custom_lists);
@@ -39,29 +38,7 @@ pub fn filter_matching_relay_list(
             // Filter by DAITA support
             .filter(|relay| filter_on_daita(&query.wireguard_constraints.daita, relay));
 
-    let shortlist = shortlist.filter(|relay| {
-        if !matches!(
-            query.wireguard_constraints.obfuscation,
-            SelectedObfuscation::Shadowsocks
-        ) {
-            return true;
-        }
-
-        match &relay.endpoint_data {
-            RelayEndpointData::Wireguard(wg_data)
-                if wg_data.shadowsocks_extra_addr_in.is_empty() =>
-            {
-                let port = query.wireguard_constraints.shadowsocks_port.as_ref();
-                match port.and_then(|settings| settings.port) {
-                    Constraint::Any => true,
-                    Constraint::Only(port) => shadowsocks
-                        .iter()
-                        .any(|(begin, end)| (*begin..=*end).contains(&port)),
-                }
-            }
-            _ => true,
-        }
-    });
+    let shortlist = shortlist.filter(|relay| filter_on_shadowsocks_port(relay_list, relay, query));
 
     // The last filtering to be done is on the `include_in_country` attribute found on each
     // relay. When the location constraint is based on country, a relay which has
@@ -87,6 +64,28 @@ pub fn filter_matching_relay_list(
             }
         }
     }
+}
+
+fn filter_on_shadowsocks_port(
+    relay_list: &ParsedRelays,
+    relay: &Relay,
+    query: &RelayQuery,
+) -> bool {
+    if matches!(&relay.endpoint_data, RelayEndpointData::Wireguard(wg_data) if wg_data.shadowsocks_extra_addr_in.is_empty())
+    {
+        if let Constraint::Only(Some(Obfuscation::Shadowsocks(ShadowsocksSettings {
+            port: Constraint::Only(port),
+        }))) = query.wireguard_constraints.obfuscation
+        {
+            return relay_list
+                .parsed_list()
+                .wireguard
+                .shadowsocks_port_ranges
+                .iter()
+                .any(|(begin, end)| (*begin..=*end).contains(&port));
+        }
+    }
+    true
 }
 
 pub fn filter_matching_bridges<'a, R: Iterator<Item = &'a Relay> + Clone>(

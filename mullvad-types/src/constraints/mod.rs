@@ -115,6 +115,20 @@ pub trait Intersection: Sized {
     fn intersection(self, other: Self) -> Option<Self>;
 }
 
+impl<T: Intersection> Intersection for Option<T> {
+    /// `Intersection` is implemented for `Option<T>` with the interpretation that `None`
+    /// corresponds to "Off", i.e. a unique setting alternative
+    fn intersection(self, other: Self) -> Option<Self> {
+        match (self, other) {
+            (None, None) => Some(None),
+            (Some(self_inner), Some(other_inner)) => {
+                Some(Some(self_inner.intersection(other_inner)?))
+            }
+            _ => None,
+        }
+    }
+}
+
 #[macro_export]
 macro_rules! impl_intersection_partialeq {
     ($ty:ty) => {

@@ -22,9 +22,9 @@ use mullvad_types::{
     endpoint::MullvadWireguardEndpoint,
     location::{Coordinates, Location},
     relay_constraints::{
-        BridgeSettings, BridgeState, InternalBridgeConstraints, ObfuscationSettings,
+        BridgeSettings, BridgeState, InternalBridgeConstraints, Obfuscation, ObfuscationSettings,
         OpenVpnConstraints, RelayConstraints, RelayOverride, RelaySettings, ResolvedBridgeSettings,
-        SelectedObfuscation, WireguardConstraints,
+        WireguardConstraints,
     },
     relay_list::{Relay, RelayEndpointData, RelayList},
     settings::Settings,
@@ -342,9 +342,7 @@ impl<'a> From<NormalSelectorConfig<'a>> for RelayQuery {
                 ip_version,
                 use_multihop: Constraint::Only(use_multihop),
                 entry_location,
-                obfuscation: obfuscation_settings.selected_obfuscation,
-                udp2tcp_port: Constraint::Only(obfuscation_settings.udp2tcp),
-                shadowsocks_port: Constraint::Only(obfuscation_settings.shadowsocks),
+                obfuscation: obfuscation_settings.into(),
                 daita: Constraint::Only(daita),
             }
         }
@@ -796,37 +794,28 @@ impl RelaySelector {
             WireguardConfig::Singlehop { exit } => exit,
             WireguardConfig::Multihop { entry, .. } => entry,
         };
-        match query.wireguard_constraints.obfuscation {
-            SelectedObfuscation::Off | SelectedObfuscation::Auto => Ok(None),
-            SelectedObfuscation::Udp2Tcp => {
+        let obfuscation = match &query.wireguard_constraints.obfuscation {
+            Constraint::Any | Constraint::Only(None) => return Ok(None),
+            Constraint::Only(Some(Obfuscation::Udp2Tcp(setting))) => {
                 let udp2tcp_ports = &parsed_relays.parsed_list().wireguard.udp2tcp_ports;
-
-                let obfuscation = helpers::get_udp2tcp_obfuscator(
-                    &query.wireguard_constraints.udp2tcp_port,
+                helpers::get_udp2tcp_obfuscator(setting, udp2tcp_ports, obfuscator_relay, endpoint)
+                    .ok_or(Error::NoObfuscator)?
+            }
+            Constraint::Only(Some(Obfuscation::Shadowsocks(setting))) => {
+                let udp2tcp_ports = &parsed_relays
+                    .parsed_list()
+                    .wireguard
+                    .shadowsocks_port_ranges;
+                helpers::get_shadowsocks_obfuscator(
+                    setting,
                     udp2tcp_ports,
                     obfuscator_relay,
                     endpoint,
                 )
-                .ok_or(Error::NoObfuscator)?;
-
-                Ok(Some(obfuscation))
+                .ok_or(Error::NoObfuscator)?
             }
-            SelectedObfuscation::Shadowsocks => {
-                let port_ranges = &parsed_relays
-                    .parsed_list()
-                    .wireguard
-                    .shadowsocks_port_ranges;
-                let obfuscation = helpers::get_shadowsocks_obfuscator(
-                    &query.wireguard_constraints.shadowsocks_port,
-                    port_ranges,
-                    obfuscator_relay,
-                    endpoint,
-                )
-                .ok_or(Error::NoObfuscator)?;
-
-                Ok(Some(obfuscation))
-            }
-        }
+        };
+        Ok(Some(obfuscation))
     }
 
     /// Derive a valid OpenVPN relay configuration from `query`.

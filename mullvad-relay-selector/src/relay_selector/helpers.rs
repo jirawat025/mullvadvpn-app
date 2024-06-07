@@ -68,13 +68,19 @@ pub fn pick_random_relay_weighted<RelayType>(
 }
 
 pub fn get_udp2tcp_obfuscator(
-    obfuscation_settings_constraint: &Constraint<Udp2TcpObfuscationSettings>,
+    obfuscation_settings: &Udp2TcpObfuscationSettings,
     udp2tcp_ports: &[u16],
     relay: Relay,
     endpoint: &MullvadWireguardEndpoint,
 ) -> Option<SelectedObfuscator> {
-    let udp2tcp_endpoint_port =
-        get_udp2tcp_obfuscator_port(obfuscation_settings_constraint, udp2tcp_ports)?;
+    let udp2tcp_endpoint_port = if obfuscation_settings.port.is_only() {
+        udp2tcp_ports
+            .iter()
+            .find(|&candidate| obfuscation_settings.port == Constraint::Only(*candidate))
+            .copied()
+    } else {
+        udp2tcp_ports.choose(&mut thread_rng()).copied()
+    }?;
     let config = ObfuscatorConfig::Udp2Tcp {
         endpoint: SocketAddr::new(endpoint.peer.endpoint.ip(), udp2tcp_endpoint_port),
     };
@@ -82,33 +88,13 @@ pub fn get_udp2tcp_obfuscator(
     Some(SelectedObfuscator { config, relay })
 }
 
-pub fn get_udp2tcp_obfuscator_port(
-    obfuscation_settings_constraint: &Constraint<Udp2TcpObfuscationSettings>,
-    udp2tcp_ports: &[u16],
-) -> Option<u16> {
-    match obfuscation_settings_constraint {
-        Constraint::Only(obfuscation_settings) if obfuscation_settings.port.is_only() => {
-            udp2tcp_ports
-                .iter()
-                .find(|&candidate| obfuscation_settings.port == Constraint::Only(*candidate))
-                .copied()
-        }
-        // There are no specific obfuscation settings to take into consideration in this case.
-        Constraint::Any | Constraint::Only(_) => udp2tcp_ports.choose(&mut thread_rng()).copied(),
-    }
-}
-
 pub fn get_shadowsocks_obfuscator(
-    settings: &Constraint<ShadowsocksSettings>,
+    settings: &ShadowsocksSettings,
     port_ranges: &[(u16, u16)],
     relay: Relay,
     endpoint: &MullvadWireguardEndpoint,
 ) -> Option<SelectedObfuscator> {
-    let port = select_random_port(
-        settings.as_ref().and_then(|settings| settings.port),
-        port_ranges,
-    )
-    .ok()?;
+    let port = select_random_port(settings.port, port_ranges).ok()?;
 
     let config = ObfuscatorConfig::Shadowsocks {
         endpoint: SocketAddr::new(endpoint.peer.endpoint.ip(), port),
