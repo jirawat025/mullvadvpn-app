@@ -29,14 +29,10 @@ class SettingsMigrationTests: BaseUITestCase {
     }
 
     func testChangeCustomDNSSettings() {
-        let hasTimeAccountNumber = getAccountWithTime()
-
-        addTeardownBlock {
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
-        }
+        let hasTimeAccount = getAccountWithTime()
 
         logoutIfLoggedIn()
-        login(accountNumber: hasTimeAccountNumber)
+        login(accountNumber: hasTimeAccount.accountNumber)
 
         HeaderBar(app)
             .tapSettingsButton()
@@ -58,14 +54,10 @@ class SettingsMigrationTests: BaseUITestCase {
     }
 
     func testChangeSettings() {
-        let hasTimeAccountNumber = getAccountWithTime()
-
-        addTeardownBlock {
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
-        }
+        let hasTimeAccount = getAccountWithTime()
 
         logoutIfLoggedIn()
-        login(accountNumber: hasTimeAccountNumber)
+        login(accountNumber: hasTimeAccount.accountNumber)
 
         HeaderBar(app)
             .tapSettingsButton()

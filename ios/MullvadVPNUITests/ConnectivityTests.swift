@@ -16,10 +16,9 @@ class ConnectivityTests: LoggedOutUITestCase {
     /// Verifies that the app still functions when API has been blocked
     func testAPIConnectionViaBridges() throws {
         firewallAPIClient.removeRules()
-        let hasTimeAccountNumber = getAccountWithTime()
+        let hasTimeAccount = getAccountWithTime()
 
         addTeardownBlock {
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
             self.firewallAPIClient.removeRules()
         }
 
@@ -29,7 +28,7 @@ class ConnectivityTests: LoggedOutUITestCase {
 
         LoginPage(app)
             .tapAccountNumberTextField()
-            .enterText(hasTimeAccountNumber)
+            .enterText(hasTimeAccount.accountNumber)
             .tapAccountNumberSubmitButton()
 
         // After creating firewall rule first login attempt might fail. One more attempt is allowed since the app is cycling between two methods.
@@ -52,10 +51,10 @@ class ConnectivityTests: LoggedOutUITestCase {
 
     /// Get the app into a blocked state by connecting to a relay then applying a filter which don't find this relay, then verify that app can still communicate by logging out and verifying that the device was successfully removed
     func testAPIReachableWhenBlocked() throws {
-        let hasTimeAccountNumber = getAccountWithTime()
+        let hasTimeAccount = getAccountWithTime()
         addTeardownBlock {
             // Reset any filters
-            self.login(accountNumber: hasTimeAccountNumber)
+            self.login(accountNumber: hasTimeAccount.accountNumber)
 
             TunnelControlPage(self.app)
                 .tapSelectLocationButton()
@@ -76,12 +75,10 @@ class ConnectivityTests: LoggedOutUITestCase {
 
             TunnelControlPage(self.app)
                 .tapCancelOrDisconnectButton()
-
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
         }
 
         // Setup. Enter blocked state by connecting to relay and applying filter which relay isn't part of.
-        login(accountNumber: hasTimeAccountNumber)
+        login(accountNumber: hasTimeAccount.accountNumber)
 
         TunnelControlPage(app)
             .tapSelectLocationButton()
@@ -128,13 +125,13 @@ class ConnectivityTests: LoggedOutUITestCase {
 
         LoginPage(app)
 
-        verifyDeviceHasBeenRemoved(deviceName: deviceName, accountNumber: hasTimeAccountNumber)
+        verifyDeviceHasBeenRemoved(deviceName: deviceName, accountNumber: hasTimeAccount.accountNumber)
     }
 
     // swiftlint:disable function_body_length
     /// Test that the app is functioning when API is down. To simulate API being down we create a dummy access method
     func testAppStillFunctioningWhenAPIDown() throws {
-        let hasTimeAccountNumber = getAccountWithTime()
+        let hasTimeAccount = getAccountWithTime()
 
         addTeardownBlock {
             HeaderBar(self.app)
@@ -144,13 +141,12 @@ class ConnectivityTests: LoggedOutUITestCase {
                 .tapAPIAccessCell()
 
             self.toggleAllAccessMethodsEnabledSwitchesIfOff()
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
         }
 
         // Setup. Create a dummy access method to simulate API being down(unreachable)
         LoginPage(app)
             .tapAccountNumberTextField()
-            .enterText(hasTimeAccountNumber)
+            .enterText(hasTimeAccount.accountNumber)
             .tapAccountNumberSubmitButton()
 
         TunnelControlPage(app)
@@ -208,7 +204,7 @@ class ConnectivityTests: LoggedOutUITestCase {
         // Verify API cannot be reached by doing a login attempt which should fail
         LoginPage(app)
             .tapAccountNumberTextField()
-            .enterText(hasTimeAccountNumber)
+            .enterText(hasTimeAccount.accountNumber)
             .tapAccountNumberSubmitButton()
             .verifyFailIconShown()
     }

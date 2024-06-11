@@ -62,11 +62,7 @@ class AccountTests: LoggedOutUITestCase {
 
     /// Verify logging in works. Will retry x number of times since login request sometimes time out.
     func testLogin() throws {
-        let hasTimeAccountNumber = getAccountWithTime()
-
-        addTeardownBlock {
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
-        }
+        let hasTimeAccount = getAccountWithTime()
 
         var successIconShown = false
         var retryCount = 0
@@ -74,7 +70,7 @@ class AccountTests: LoggedOutUITestCase {
 
         LoginPage(app)
             .tapAccountNumberTextField()
-            .enterText(hasTimeAccountNumber)
+            .enterText(hasTimeAccount.accountNumber)
 
         repeat {
             successIconShown = LoginPage(app)
@@ -151,15 +147,11 @@ class AccountTests: LoggedOutUITestCase {
     }
 
     func testTimeLeft() throws {
-        let hasTimeAccountNumber = getAccountWithTime()
+        let hasTimeAccount = getAccountWithTime()
 
-        addTeardownBlock {
-            self.deleteTemporaryAccountWithTime(accountNumber: hasTimeAccountNumber)
-        }
+        login(accountNumber: hasTimeAccount.accountNumber)
 
-        login(accountNumber: hasTimeAccountNumber)
-
-        let accountExpiry = try mullvadAPIWrapper.getAccountExpiry(hasTimeAccountNumber)
+        let accountExpiry = try mullvadAPIWrapper.getAccountExpiry(hasTimeAccount.accountNumber)
 
         HeaderBar(app)
             .tapAccountButton()

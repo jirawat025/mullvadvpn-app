@@ -34,51 +34,26 @@ class BaseUITestCase: XCTestCase {
     // swiftlint:disable force_cast
     let displayName = Bundle(for: BaseUITestCase.self)
         .infoDictionary?["DisplayName"] as! String
-    private let bundleHasTimeAccountNumber = Bundle(for: BaseUITestCase.self)
-        .infoDictionary?["HasTimeAccountNumber"] as? String
-    private let bundleNoTimeAccountNumber = Bundle(for: BaseUITestCase.self)
-        .infoDictionary?["NoTimeAccountNumber"] as? String
     let iOSDevicePinCode = Bundle(for: BaseUITestCase.self)
         .infoDictionary?["IOSDevicePinCode"] as! String
     let attachAppLogsOnFailure = Bundle(for: BaseUITestCase.self)
         .infoDictionary?["AttachAppLogsOnFailure"] as! String == "1"
     // swiftlint:enable force_cast
 
-    /// Get an account number with time. If an account with time is specified in the configuration file that account will be used, else a temporary account will be created if partner API token has been configured.
-    func getAccountWithTime() -> String {
-        if let configuredAccountWithTime = bundleHasTimeAccountNumber, !configuredAccountWithTime.isEmpty {
-            return configuredAccountWithTime
-        } else {
-            let partnerAPIClient = PartnerAPIClient()
-            let accountNumber = partnerAPIClient.createAccount()
-            _ = partnerAPIClient.addTime(accountNumber: accountNumber, days: 1)
-            return accountNumber
-        }
-    }
+    var accountInUseByTestCase: Account?
 
-    /// Delete temporary account with time if a temporary account was used
-    func deleteTemporaryAccountWithTime(accountNumber: String) {
-        if bundleHasTimeAccountNumber?.isEmpty == true {
-            PartnerAPIClient().deleteAccount(accountNumber: accountNumber)
-        }
+    /// Get an account number with time. If an account with time is specified in the configuration file that account will be used, else a temporary account will be created if partner API token has been configured.
+    func getAccountWithTime() -> Account {
+        let account = Account.getAccountWithTime()
+        accountInUseByTestCase = account
+        return account
     }
 
     /// Get an account number without time. If an account without time  is specified in the configuration file that account will be used, else a temporary account will be created.
-    func getAccountWithoutTime() -> String {
-        if let configuredAccountWithoutTime = bundleNoTimeAccountNumber, !configuredAccountWithoutTime.isEmpty {
-            return configuredAccountWithoutTime
-        } else {
-            let partnerAPIClient = PartnerAPIClient()
-            let accountNumber = partnerAPIClient.createAccount()
-            return accountNumber
-        }
-    }
-
-    /// Delete temporary account withoiut time if a temporary account was used
-    func deleteTemporaryAccountWithoutTime(accountNumber: String) {
-        if bundleNoTimeAccountNumber?.isEmpty == true {
-            PartnerAPIClient().deleteAccount(accountNumber: accountNumber)
-        }
+    func getAccountWithoutTime() -> Account {
+        let account = Account.getAccountWithoutTime()
+        accountInUseByTestCase = account
+        return account
     }
 
     /// Handle iOS add VPN configuration permission alert - allow and enter device PIN code
@@ -173,6 +148,12 @@ class BaseUITestCase: XCTestCase {
             add(attachment)
 
             app.terminate()
+        }
+
+        // If this test case used a temporary account it will be deleted
+        if let accountInUseByTestCase {
+            accountInUseByTestCase.deleteIfTemporary()
+            self.accountInUseByTestCase = nil
         }
     }
 
