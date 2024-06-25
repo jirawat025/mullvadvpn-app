@@ -277,28 +277,45 @@ extension PacketTunnelActor {
         nextRelays: NextRelays,
         reason: ActorReconnectReason
     ) async throws {
-        guard let connectionState = try obfuscateConnection(nextRelays: nextRelays, settings: settings, reason: reason),
-              let targetState = state.targetStateForReconnect else { return }
+        guard
+            let connectionStates = try obfuscateConnection(nextRelays: nextRelays, settings: settings, reason: reason),
+            let targetState = state.targetStateForReconnect else { return }
 
-        let activeKey = activeKey(from: connectionState, in: settings)
+        let exitState = connectionStates.entry!
+        let activeKey = activeKey(from: exitState, in: settings)
 
         switch targetState {
         case .connecting:
-            state = .connecting(connectionState)
+            state = .connecting(exitState)
         case .reconnecting:
-            state = .reconnecting(connectionState)
+            state = .reconnecting(exitState)
         }
 
-        let configurationBuilder = ConfigurationBuilder(
+        let exitConfiguration = try ConfigurationBuilder(
             privateKey: activeKey,
             interfaceAddresses: settings.interfaceAddresses,
             dns: settings.dnsServers,
-            endpoint: connectionState.connectedEndpoint,
+            endpoint: connectionStates.exit.connectedEndpoint,
             allowedIPs: [
                 IPAddressRange(from: "0.0.0.0/0")!,
-                IPAddressRange(from: "::/0")!,
+                IPAddressRange(from: "::/0")!
             ]
-        )
+        ).makeConfiguration()
+
+        let entryConfiguration: TunnelAdapterConfiguration? = if let entryState = connectionStates.entry {
+            try ConfigurationBuilder(
+                privateKey: activeKey,
+                interfaceAddresses: settings.interfaceAddresses,
+                dns: settings.dnsServers,
+                endpoint: entryState.connectedEndpoint,
+                allowedIPs: [
+                    IPAddressRange(from: "0.0.0.0/0")!,
+                    IPAddressRange(from: "::/0")!
+                ]
+            ).makeConfiguration()
+        } else {
+            nil
+        }
 
         /*
          Stop default path observer while updating WireGuard configuration since it will call the system method
@@ -313,10 +330,13 @@ extension PacketTunnelActor {
             startDefaultPathObserver(notifyObserverWithCurrentPath: true)
         }
 
-        try await tunnelAdapter.start(configuration: configurationBuilder.makeConfiguration())
+        try await tunnelAdapter.startMultihop(
+            exitConfiguration: exitConfiguration,
+            entryConfiguration: entryConfiguration
+        )
 
         // Resume tunnel monitoring and use IPv4 gateway as a probe address.
-        tunnelMonitor.start(probeAddress: connectionState.selectedRelays.exit.endpoint.ipv4Gateway) // TODO: Multihop
+        tunnelMonitor.start(probeAddress: connectionStates.entry!.connectedEndpoint.ipv4Gateway) // TODO: Multihop
     }
 
     /**
@@ -412,36 +432,73 @@ extension PacketTunnelActor {
         nextRelays: NextRelays,
         settings: Settings,
         reason: ActorReconnectReason
-    ) throws -> State.ConnectionData? {
+    ) throws -> State.MultihopConnectionData? {
         guard let connectionState = try makeConnectionState(nextRelays: nextRelays, settings: settings, reason: reason)
         else { return nil }
 
-        //
+        let transportLayer = protocolObfuscator.transportLayer.map { $0 } ?? .udp
+
         // Obfuscator will always be applied to the first hop,
         // i.e., the entry in multi-hop or exit in single-hop.
-        //
-        let endpoint = connectionState.selectedRelays.entry?.endpoint ?? connectionState.selectedRelays.exit.endpoint
+        if let endpoint = connectionState.selectedRelays.entry?.endpoint {
+            let obfuscatedEndpoint = protocolObfuscator.obfuscate(
+                endpoint,
+                settings: settings,
+                retryAttempts: connectionState.selectedRelays.exit.retryAttempts // TODO: Multihop
+            )
 
-        let obfuscatedEndpoint = protocolObfuscator.obfuscate(
-            endpoint,
-            settings: settings,
-            retryAttempts: connectionState.selectedRelays.exit.retryAttempts // TODO: Multihop
-        )
+            return State.MultihopConnectionData(
+                exit: State.ConnectionData(
+                    selectedRelays: connectionState.selectedRelays,
+                    relayConstraints: connectionState.relayConstraints,
+                    currentKey: settings.privateKey,
+                    keyPolicy: connectionState.keyPolicy,
+                    networkReachability: connectionState.networkReachability,
+                    connectionAttemptCount: connectionState.connectionAttemptCount,
+                    lastKeyRotation: connectionState.lastKeyRotation,
+                    connectedEndpoint: connectionState.selectedRelays.exit.endpoint,
+                    transportLayer: transportLayer,
+                    remotePort: protocolObfuscator.remotePort,
+                    isPostQuantum: settings.quantumResistance.isEnabled
+                ),
+                entry: State.ConnectionData(
+                    selectedRelays: connectionState.selectedRelays,
+                    relayConstraints: connectionState.relayConstraints,
+                    currentKey: settings.privateKey,
+                    keyPolicy: connectionState.keyPolicy,
+                    networkReachability: connectionState.networkReachability,
+                    connectionAttemptCount: connectionState.connectionAttemptCount,
+                    lastKeyRotation: connectionState.lastKeyRotation,
+                    connectedEndpoint: obfuscatedEndpoint,
+                    transportLayer: transportLayer,
+                    remotePort: protocolObfuscator.remotePort,
+                    isPostQuantum: settings.quantumResistance.isEnabled
+                )
+            )
+        } else {
+            let obfuscatedEndpoint = protocolObfuscator.obfuscate(
+                connectionState.selectedRelays.exit.endpoint,
+                settings: settings,
+                retryAttempts: connectionState.selectedRelays.exit.retryAttempts // TODO: Multihop
+            )
 
-        let transportLayer = protocolObfuscator.transportLayer.map { $0 } ?? .udp
-        return State.ConnectionData(
-            selectedRelays: connectionState.selectedRelays,
-            relayConstraints: connectionState.relayConstraints,
-            currentKey: settings.privateKey,
-            keyPolicy: connectionState.keyPolicy,
-            networkReachability: connectionState.networkReachability,
-            connectionAttemptCount: connectionState.connectionAttemptCount,
-            lastKeyRotation: connectionState.lastKeyRotation,
-            connectedEndpoint: obfuscatedEndpoint,
-            transportLayer: transportLayer,
-            remotePort: protocolObfuscator.remotePort,
-            isPostQuantum: settings.quantumResistance.isEnabled
-        )
+            return State.MultihopConnectionData(
+                exit: State.ConnectionData(
+                    selectedRelays: connectionState.selectedRelays,
+                    relayConstraints: connectionState.relayConstraints,
+                    currentKey: settings.privateKey,
+                    keyPolicy: connectionState.keyPolicy,
+                    networkReachability: connectionState.networkReachability,
+                    connectionAttemptCount: connectionState.connectionAttemptCount,
+                    lastKeyRotation: connectionState.lastKeyRotation,
+                    connectedEndpoint: obfuscatedEndpoint,
+                    transportLayer: transportLayer,
+                    remotePort: protocolObfuscator.remotePort,
+                    isPostQuantum: settings.quantumResistance.isEnabled
+                ),
+                entry: nil
+            )
+        }
     }
 
     /**

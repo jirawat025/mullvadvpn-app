@@ -108,6 +108,11 @@ extension State {
         case usePrior(_ priorKey: PrivateKey, _ timerTask: AutoCancellingTask)
     }
 
+    struct MultihopConnectionData {
+        let exit: ConnectionData
+        let entry: ConnectionData?
+    }
+
     /// Data associated with states that hold connection data.
     struct ConnectionData: Equatable, StateAssociatedData {
         /// Current selected relays.
