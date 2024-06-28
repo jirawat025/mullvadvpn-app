@@ -1,5 +1,5 @@
 ---
-name: Android - Build and test
+name: Android - Reprodubile
 on:
   workflow_dispatch:
     inputs:
