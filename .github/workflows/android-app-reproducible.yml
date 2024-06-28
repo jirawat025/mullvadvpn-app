@@ -36,9 +36,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        include:
-          build-id: a
-          build-id: b
+        build-id: [a, b]
     steps:
       - name: Fix HOME path
         run: echo "HOME=/root" >> $GITHUB_ENV
