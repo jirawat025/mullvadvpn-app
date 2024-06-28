@@ -89,7 +89,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - type: nativeful
@@ -112,4 +112,5 @@ jobs:
         run: find apks -name "*.apk" | xargs sha256sum
 
       - name: Run diffoscope
-        run: diffoscope apks/*
+        run: diffoscope apks/apk-nativeful-a/app-oss-prod-fdroid-unsigned.apk apks/apk-nativeful-b/app-oss-prod-fdroid-unsigned.apk
+
