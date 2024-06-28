@@ -72,6 +72,8 @@ jobs:
           submodules: true
 
       - name: Build (${{ matrix.type }}-${{ matrix.iteration }})
+        env:
+          ARCHITECTURES: x86_64
         run: bash -c "${{ matrix.command }}"
 
       - name: Upload (${{ matrix.type }}-${{ matrix.iteration }})
