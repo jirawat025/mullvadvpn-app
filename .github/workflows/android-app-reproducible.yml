@@ -43,12 +43,12 @@ jobs:
           - iteration: a
             type: nativeful
             command: ./build-apk.sh --fdroid
-            path: dist
+            path: android/app/build/outputs/apk/ossProd/fdroid
 
           - iteration: b
             type: nativeful
             command: ./build-apk.sh --fdroid
-            path: dist
+            path: android/app/build/outputs/apk/ossProd/fdroid
 
           - iteration: a
             type: nativeless
