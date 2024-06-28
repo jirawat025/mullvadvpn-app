@@ -28,7 +28,7 @@ jobs:
       container_image: ${{ env.inner_container_image }}
 
   build-app:
-    name: Build app
+    name: Build reproducible app
     needs: [prepare]
     runs-on: ubuntu-latest
     container:
