@@ -72,7 +72,7 @@ jobs:
           submodules: true
 
       - name: Build (${{ matrix.type }}-${{ matrix.iteration }})
-        run: ${{ matrix.gradle-task }}
+        run: bash -c "${{ matrix.gradle-task }}"
 
       - name: Upload (${{ matrix.type }}-${{ matrix.iteration }})
         uses: actions/upload-artifact@v4
@@ -84,7 +84,7 @@ jobs:
 
   verify-builds:
     name: Verify builds
-    needs: [prepare]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -95,3 +95,6 @@ jobs:
 
       - name: Fix git dir
         run: ls -al apks
+
+      - name: print checksums
+        run: find . -name "*.apk" | xargs sha256sum
