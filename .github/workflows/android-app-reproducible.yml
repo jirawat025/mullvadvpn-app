@@ -29,10 +29,11 @@ jobs:
     outputs:
       container_image: ${{ env.inner_container_image }}
 
-  build-app:
-    name: Build reproducible app
+  build-nativeful:
+    name: Reproducible nativeful build
     needs: [prepare]
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     container:
       image: ${{ needs.prepare.outputs.container_image }}
     strategy:
@@ -48,13 +49,48 @@ jobs:
         with:
           submodules: true
 
-      - name: Build app  (${{ matrix.build-id }})
-        run: ./build-apk.sh --fdroid
+      - name: Build nativeful app  (${{ matrix.build-id }})
+        run: |
+          git config --global --add safe.directory $(pwd)
+          ./build-apk.sh --fdroid
 
       - name: Upload apks (${{ matrix.build-id }})
         uses: actions/upload-artifact@v3
         with:
-          name: apks-${{ matrix.build-id }}
+          name: apk-nativeful-${{ matrix.build-id }}
+          path: dist
+          if-no-files-found: error
+          retention-days: 7
+
+  build-nativeless:
+    name: Reproducible nativeless build
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    container:
+      image: ${{ needs.prepare.outputs.container_image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        build-id: [a, b]
+    steps:
+      - name: Fix HOME path
+        run: echo "HOME=/root" >> $GITHUB_ENV
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Build app  (${{ matrix.build-id }})
+        run: |
+          git config --global --add safe.directory $(pwd)
+          ./android/gradlew -p android clean assembleOssProdFdroid
+
+      - name: Upload apks (${{ matrix.build-id }})
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk-nativeless-${{ matrix.build-id }}
           path: android/app/build/outputs/apk
           if-no-files-found: error
           retention-days: 7
