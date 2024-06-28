@@ -1,0 +1,60 @@
+---
+name: Android - Build and test
+on:
+  workflow_dispatch:
+    inputs:
+      override_container_image:
+        description: Override container image
+        type: string
+        required: false
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use custom container image if specified
+        if: ${{ github.event.inputs.override_container_image != '' }}
+        run: echo "inner_container_image=${{ github.event.inputs.override_container_image }}"
+          >> $GITHUB_ENV
+
+      - name: Use default container image and resolve digest
+        if: ${{ github.event.inputs.override_container_image == '' }}
+        run: |
+          echo "inner_container_image=$(cat ./building/android-container-image.txt)" >> $GITHUB_ENV
+    outputs:
+      container_image: ${{ env.inner_container_image }}
+
+  build-app:
+    name: Build app
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ needs.prepare.outputs.container_image }}
+    strategy:
+      matrix:
+        include:
+          build-id: a
+          build-id: b
+
+    steps:
+      - name: Fix HOME path
+        run: echo "HOME=/root" >> $GITHUB_ENV
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Build app  (${{ matrix.build-id }})
+        run: ./build-apk.sh --fdroid
+
+      - name: Upload apks (${{ matrix.build-id }})
+        uses: actions/upload-artifact@v3
+        with:
+          name: apks-${{ matrix.build-id }}
+          path: android/app/build/outputs/apk
+          if-no-files-found: error
+          retention-days: 7
