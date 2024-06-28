@@ -34,11 +34,11 @@ jobs:
     container:
       image: ${{ needs.prepare.outputs.container_image }}
     strategy:
+      fail-fast: true
       matrix:
         include:
           build-id: a
           build-id: b
-
     steps:
       - name: Fix HOME path
         run: echo "HOME=/root" >> $GITHUB_ENV
