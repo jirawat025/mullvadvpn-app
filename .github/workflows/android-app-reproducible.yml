@@ -86,15 +86,29 @@ jobs:
     name: Verify builds
     needs: [build]
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - type: nativeful
+            path: dist
+          - type: nativeless
+            path: dist
     steps:
+      - name: Install diffoscope
+        run: apt-get install diffoscope
+
       - uses: actions/download-artifact@v4
         with:
-          pattern: apk-*
+          pattern: apk-${{ matrix.type }}-*
           path: apks
           merge-multiple: true
 
       - name: Fix git dir
-        run: ls -al apks
+        run: find apks
 
       - name: print checksums
-        run: find . -name "*.apk" | xargs sha256sum
+        run: find apks -name "*.apk" | xargs sha256sum
+
+      - name: Run diffoscope
+        run: diffoscope apks/*
