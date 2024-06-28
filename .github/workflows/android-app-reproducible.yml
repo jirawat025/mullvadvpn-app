@@ -43,22 +43,22 @@ jobs:
           - iteration: a
             type: nativeful
             command: ./build-apk.sh --fdroid
-            path: android/app/build/outputs/apk/ossProd/fdroid
+            path: android/app/build/outputs/apk/ossProd/fdroid/app-oss-prod-fdroid-unsigned.apk
 
           - iteration: b
             type: nativeful
             command: ./build-apk.sh --fdroid
-            path: android/app/build/outputs/apk/ossProd/fdroid
+            path: android/app/build/outputs/apk/ossProd/fdroid/app-oss-prod-fdroid-unsigned.apk
 
           - iteration: a
             type: nativeless
             command: ./android/gradlew -p android clean assembleOssProdFdroid
-            path: android/app/build/outputs/apk/ossProd/fdroid
+            path: android/app/build/outputs/apk/ossProd/fdroid/app-oss-prod-fdroid-unsigned.apk
 
           - iteration: b
             type: nativeless
             command: ./android/gradlew -p android clean assembleOssProdFdroid
-            path: android/app/build/outputs/apk/ossProd/fdroid
+            path: android/app/build/outputs/apk/ossProd/fdroid/app-oss-prod-fdroid-unsigned.apk
     steps:
       - name: Fix HOME path
         run: echo "HOME=/root" >> $GITHUB_ENV
@@ -104,7 +104,6 @@ jobs:
         with:
           pattern: apk-${{ matrix.type }}-*
           path: apks
-          merge-multiple: true
 
       - name: Fix git dir
         run: find apks
