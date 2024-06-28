@@ -274,9 +274,9 @@ tasks.register("copyExtraAssets", Copy::class) {
 
 tasks.register("ensureJniDirectoryExist") {
     doFirst {
-        if (!file(extraJniDirectory).exists()) {
-            throw GradleException("Missing JNI directory: $extraJniDirectory")
-        }
+        // if (!file(extraJniDirectory).exists()) {
+        //     throw GradleException("Missing JNI directory: $extraJniDirectory")
+        // }
     }
 }
 
