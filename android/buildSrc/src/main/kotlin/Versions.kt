@@ -70,6 +70,7 @@ object Versions {
         // Ksp version is linked with kotlin version, find matching release here:
         // https://github.com/google/ksp/releases
         const val ksp = "${kotlin}-1.0.21"
+        const val rustAndroid = "0.9.4"
     }
 
     object Koin {

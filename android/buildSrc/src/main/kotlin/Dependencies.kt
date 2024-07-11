@@ -167,6 +167,8 @@ object Dependencies {
             "com.github.triplet.gradle:play-publisher:${Versions.Plugin.playPublisher}"
         const val playPublisherId = "com.github.triplet.play"
 
+        const val rustAndroid = "org.mozilla.rust-android-gradle.rust-android"
+
         object Protobuf {
             const val protobufId = "com.google.protobuf"
             const val protocGenGrpcJava =

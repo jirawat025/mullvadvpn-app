@@ -7,6 +7,7 @@ plugins {
     id(Dependencies.Plugin.gradleVersionsId) version Versions.Plugin.gradleVersions
     id(Dependencies.Plugin.ktfmtId) version Versions.Plugin.ktfmt apply false
     id(Dependencies.Plugin.detektId) version Versions.Plugin.detekt
+    id(Dependencies.Plugin.rustAndroid) version Versions.Plugin.rustAndroid
 }
 
 buildscript {
@@ -54,8 +55,10 @@ buildscript {
         classpath(Dependencies.Kotlin.kotlinNavtivePrebuiltMacOsAArch64)
         classpath(Dependencies.Kotlin.kotlinNavtivePrebuiltMacOsX86_64)
         classpath(Dependencies.Kotlin.kotlinNavtivePrebuiltWindowsX86_64)
+        classpath("org.mozilla.rust-android-gradle:plugin:0.9.4")
     }
 }
+
 
 val baselineFile = file("$rootDir/config/baseline.xml")
 val configFile = files("$rootDir/config/detekt.yml")

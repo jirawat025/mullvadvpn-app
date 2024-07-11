@@ -14,6 +14,7 @@ plugins {
     id(Dependencies.Plugin.ksp) version Versions.Plugin.ksp
     id(Dependencies.Plugin.junit5) version Versions.Plugin.junit5
     id(Dependencies.Plugin.composeCompiler) version Versions.kotlin
+    id(Dependencies.Plugin.rustAndroid)
 }
 
 val repoRootPath = rootProject.projectDir.absoluteFile.parentFile.absolutePath
@@ -241,6 +242,18 @@ android {
 
     project.tasks.assemble.dependsOn("ensureJniDirectoryExist")
     project.tasks.assemble.dependsOn("ensureValidVersionCode")
+
+    ndkVersion = "25.2.9519653"
+}
+
+cargo {
+    module = "../" // Or whatever directory contains your Cargo.toml
+    libname = "mullvad-jni" // Or whatever matches Cargo.toml's [package] name.
+    targets = listOf("arm", "x86") // See bellow for a longer list of options
+    profile = "release"
+    prebuiltToolchains = true
+    verbose = true
+//    targetDirectory = 'path/to/workspace/root/target'
 }
 
 composeCompiler { enableStrongSkippingMode = true }
