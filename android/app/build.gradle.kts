@@ -247,13 +247,16 @@ android {
 }
 
 cargo {
-    module = "../" // Or whatever directory contains your Cargo.toml
-    libname = "mullvad-jni" // Or whatever matches Cargo.toml's [package] name.
-    targets = listOf("arm", "x86") // See bellow for a longer list of options
-    profile = "release"
-    prebuiltToolchains = true
-    verbose = true
-//    targetDirectory = 'path/to/workspace/root/target'
+    module = "../"
+    libname = "mullvad-jni"
+    profile = "debug" // This is the default profile
+    targets = listOf("arm", "arm64", "x86", "x86_64")
+
+    features {
+        defaultAnd(arrayOf("api-override"))
+    }
+
+    targetDirectory = "app/build/extraJni"
 }
 
 composeCompiler { enableStrongSkippingMode = true }
