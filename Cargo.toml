@@ -75,6 +75,7 @@ env_logger = "0.10.0"
 thiserror = "1.0.57"
 log = "0.4"
 tracing = "0.1.40"
+tracing-futures = "0.2"
 
 shadowsocks = { version = "1.16" }
 shadowsocks-service = { version = "1.16" }

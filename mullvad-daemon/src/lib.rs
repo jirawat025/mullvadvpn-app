@@ -948,6 +948,7 @@ where
         should_stop
     }
 
+    #[tracing::instrument(name = "Handle state transition", skip_all)]
     async fn handle_tunnel_state_transition(
         &mut self,
         tunnel_state_transition: TunnelStateTransition,
@@ -1029,6 +1030,7 @@ where
     /// [`InternalDaemonEvent::LocationEvent`].
     ///
     /// See [`Daemon::handle_location_event()`]
+    #[tracing::instrument(skip_all)]
     fn fetch_am_i_mullvad(&mut self) {
         // Always abort any ongoing request when entering a new tunnel state
         self.location_handler.abort_current_request();
@@ -1128,6 +1130,7 @@ where
         }
     }
 
+    #[tracing::instrument(skip_all)]
     async fn handle_command(&mut self, command: DaemonCommand) {
         use self::DaemonCommand::*;
         if self.tunnel_state.is_disconnected() {
