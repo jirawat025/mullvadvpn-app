@@ -104,7 +104,11 @@ pub fn init_logger(
         .with_ansi(true);
 
     if output_timestamp {
-        fmt_subscriber.init();
+        fmt_subscriber
+            .with_timer(tracing_subscriber::fmt::time::ChronoUtc::new(
+                "%H:%M:%S%.3f".to_string(),
+            ))
+            .init();
     } else {
         fmt_subscriber.without_time().init();
     }
