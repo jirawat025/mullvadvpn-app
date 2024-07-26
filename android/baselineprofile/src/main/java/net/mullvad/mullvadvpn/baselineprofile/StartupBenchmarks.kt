@@ -50,8 +50,9 @@ class StartupBenchmarks {
     private fun benchmark(compilationMode: CompilationMode) {
         // The application id for the running build variant is read from the instrumentation arguments.
         rule.measureRepeated(
-            packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
-                ?: throw Exception("targetAppId not passed as instrumentation runner arg"),
+            //packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
+            //    ?: throw Exception("targetAppId not passed as instrumentation runner arg"),
+            packageName = "net.mullvad.mullvadvpn",
             metrics = listOf(StartupTimingMetric()),
             compilationMode = compilationMode,
             startupMode = StartupMode.COLD,

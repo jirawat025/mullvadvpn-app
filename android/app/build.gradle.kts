@@ -330,7 +330,7 @@ dependencies {
     implementation(project(Dependencies.Mullvad.tileService))
     implementation(project(Dependencies.Mullvad.themeLib))
     implementation(project(Dependencies.Mullvad.vpnService))
-    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
+    implementation("androidx.profileinstaller:profileinstaller:1.4.0-alpha01")
     "baselineProfile"(project(":baselineprofile"))
 
     // Play implementation
