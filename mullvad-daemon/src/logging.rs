@@ -4,7 +4,9 @@ use std::{
     sync::atomic::{AtomicBool, Ordering},
 };
 use talpid_core::logging::rotate_log;
-use tracing_subscriber::{self, filter::LevelFilter, EnvFilter};
+use tracing_subscriber::{
+    self, filter::LevelFilter, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter,
+};
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
@@ -81,37 +83,33 @@ pub fn init_logger(
         log::LevelFilter::Trace => LevelFilter::TRACE,
     };
 
-    let mut env_filter = EnvFilter::try_from_default_env()
+    let env_filter = EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| EnvFilter::from_default_env().add_directive(level_filter.into()));
 
-    for silenced_crate in WARNING_SILENCED_CRATES {
-        env_filter = env_filter.add_directive(format!("{silenced_crate}=error").parse().unwrap());
-    }
-    for silenced_crate in SILENCED_CRATES {
-        env_filter = env_filter.add_directive(format!("{silenced_crate}=warn").parse().unwrap());
-    }
+    let default_filter = get_default_filter(level_filter);
 
-    for silenced_crate in SLIGHTLY_SILENCED_CRATES {
-        env_filter = env_filter.add_directive(
-            format!("{silenced_crate}={}", one_level_quieter(log_level))
-                .parse()
-                .unwrap(),
-        );
-    }
+    let (user_filter, handle) = tracing_subscriber::reload::Layer::new(env_filter);
 
-    let fmt_subscriber = tracing_subscriber::fmt::fmt()
-        .with_env_filter(env_filter)
-        .with_ansi(true);
+    let formatter = tracing_subscriber::fmt::layer().with_ansi(true);
 
+    let reg = tracing_subscriber::registry()
+        .with(user_filter)
+        .with(default_filter);
     if output_timestamp {
-        fmt_subscriber
-            .with_timer(tracing_subscriber::fmt::time::ChronoUtc::new(
+        reg.with(
+            formatter.with_timer(tracing_subscriber::fmt::time::ChronoUtc::new(
                 "%H:%M:%S%.3f".to_string(),
-            ))
-            .init();
+            )),
+        )
+        .init();
     } else {
-        fmt_subscriber.without_time().init();
+        reg.with(formatter.without_time()).init();
     }
+
+    // let new_filter = LevelFilter::TRACE;
+    // handle
+    //     .modify(|filter| *filter = EnvFilter::new(new_filter.to_string()))
+    //     .unwrap();
 
     if let Some(log_file) = log_file {
         rotate_log(log_file).map_err(Error::RotateLog)?;
@@ -130,14 +128,34 @@ pub fn init_logger(
     Ok(())
 }
 
-fn one_level_quieter(level: log::LevelFilter) -> log::LevelFilter {
-    use log::LevelFilter::*;
+fn get_default_filter(level_filter: LevelFilter) -> EnvFilter {
+    let mut env_filter = EnvFilter::builder().parse("trace").unwrap();
+    for silenced_crate in WARNING_SILENCED_CRATES {
+        env_filter = env_filter.add_directive(format!("{silenced_crate}=error").parse().unwrap());
+    }
+    for silenced_crate in SILENCED_CRATES {
+        env_filter = env_filter.add_directive(format!("{silenced_crate}=warn").parse().unwrap());
+    }
+
+    // NOTE: the levels set here will never be overwritten, since the default filter cannot be
+    // reloaded
+    for silenced_crate in SLIGHTLY_SILENCED_CRATES {
+        env_filter = env_filter.add_directive(
+            format!("{silenced_crate}={}", one_level_quieter(level_filter))
+                .parse()
+                .unwrap(),
+        );
+    }
+    env_filter
+}
+
+fn one_level_quieter(level: LevelFilter) -> LevelFilter {
     match level {
-        Off => Off,
-        Error => Off,
-        Warn => Error,
-        Info => Warn,
-        Debug => Info,
-        Trace => Debug,
+        LevelFilter::OFF => LevelFilter::OFF,
+        LevelFilter::ERROR => LevelFilter::OFF,
+        LevelFilter::WARN => LevelFilter::ERROR,
+        LevelFilter::INFO => LevelFilter::WARN,
+        LevelFilter::DEBUG => LevelFilter::INFO,
+        LevelFilter::TRACE => LevelFilter::DEBUG,
     }
 }
