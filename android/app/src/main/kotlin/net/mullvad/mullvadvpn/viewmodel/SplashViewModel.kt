@@ -2,6 +2,7 @@ package net.mullvad.mullvadvpn.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +29,7 @@ class SplashViewModel(
 ) : ViewModel() {
 
     val uiSideEffect = flow {
+        Logger.d("SPLASH Fetching start destination")
         emit(getStartDestination())
         splashCompleteRepository.onSplashCompleted()
     }
@@ -39,10 +41,12 @@ class SplashViewModel(
         if (!privacyDisclaimerRepository.hasAcceptedPrivacyDisclosure()) {
             return SplashUiSideEffect.NavigateToPrivacyDisclaimer
         }
+        Logger.d("SPLASH Privacy policy already approved")
 
         val deviceState =
             deviceRepository.deviceState
                 .map {
+                    Logger.d("SPLASH Received device state: $it")
                     when (it) {
                         is DeviceState.LoggedIn -> ValidStartDeviceState.LoggedIn
                         DeviceState.LoggedOut -> ValidStartDeviceState.LoggedOut
@@ -52,6 +56,8 @@ class SplashViewModel(
                 }
                 .filterNotNull()
                 .first()
+        Logger.d("SPLASH Device state: $deviceState")
+
 
         return when (deviceState) {
             ValidStartDeviceState.LoggedOut -> SplashUiSideEffect.NavigateToLogin
