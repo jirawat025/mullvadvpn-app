@@ -22,8 +22,8 @@ SKIP_STRIPPING=${SKIP_STRIPPING:-"no"}
 
 while [ -n "${1:-""}" ]; do
     if [[ "${1:-""}" == "--dev-build" ]]; then
-        BUILD_TYPE="debug"
-        GRADLE_BUILD_TYPE="debug"
+        BUILD_TYPE="release"
+        GRADLE_BUILD_TYPE="release"
         CARGO_ARGS=()
         GRADLE_TASKS=(createOssProdDebugDistApk)
         BUNDLE_TASKS=(createOssProdDebugDistBundle)
@@ -39,14 +39,6 @@ while [ -n "${1:-""}" ]; do
 
     shift 1
 done
-
-if [[ "$GRADLE_BUILD_TYPE" == "release" ]]; then
-    if [ ! -f "$SCRIPT_DIR/android/credentials/keystore.properties" ]; then
-        echo "ERROR: No keystore.properties file found" >&2
-        echo "       Please configure the signing keys as described in the README" >&2
-        exit 1
-    fi
-fi
 
 if [[ "$BUILD_TYPE" == "release" && "$PRODUCT_VERSION" != *"-dev-"* ]]; then
     echo "Removing old Rust build artifacts"
@@ -76,7 +68,7 @@ $GRADLE_CMD --console plain clean
 mkdir -p "app/build/extraJni"
 popd
 
-for ARCHITECTURE in ${ARCHITECTURES:-aarch64 armv7 x86_64 i686}; do
+for ARCHITECTURE in ${ARCHITECTURES:-aarch64}; do
     case "$ARCHITECTURE" in
         "x86_64")
             TARGET="x86_64-linux-android"
