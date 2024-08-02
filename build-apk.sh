@@ -24,7 +24,7 @@ while [ -n "${1:-""}" ]; do
     if [[ "${1:-""}" == "--dev-build" ]]; then
         BUILD_TYPE="release"
         GRADLE_BUILD_TYPE="release"
-        CARGO_ARGS=()
+        CARGO_ARGS=("--release")
         GRADLE_TASKS=(createOssProdDebugDistApk)
         BUNDLE_TASKS=(createOssProdDebugDistBundle)
     elif [[ "${1:-""}" == "--fdroid" ]]; then
@@ -40,15 +40,9 @@ while [ -n "${1:-""}" ]; do
     shift 1
 done
 
-if [[ "$BUILD_TYPE" == "release" && "$PRODUCT_VERSION" != *"-dev-"* ]]; then
-    echo "Removing old Rust build artifacts"
-    cargo clean
-    CARGO_ARGS+=( "--locked" )
-else
-    CARGO_ARGS+=( "--features" "api-override" )
-    GRADLE_TASKS+=(createPlayDevmoleReleaseDistApk createPlayStagemoleReleaseDistApk)
-    BUNDLE_TASKS+=(createPlayDevmoleReleaseDistBundle createPlayStagemoleReleaseDistBundle)
-fi
+echo "Removing old Rust build artifacts"
+cargo clean
+CARGO_ARGS+=( "--locked" )
 
 pushd "$SCRIPT_DIR/android"
 
