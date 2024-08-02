@@ -1072,7 +1072,6 @@ impl ManagementInterfaceServer {
     > {
         let subscriptions = Arc::<Mutex<Vec<EventsListenerSender>>>::default();
 
-        // let grpc_cancellation_token = CancellationToken::new();
         // NOTE: It is important that the channel buffer size is kept at 0. When sending a signal
         // to abort the gRPC server, the sender can be awaited to know when the gRPC server has
         // received and started processing the shutdown signal.
@@ -1095,19 +1094,6 @@ impl ManagementInterfaceServer {
             close_handle: server_abort_tx,
         };
 
-        // TODO: Move to finalize! Or something
-        // tokio::spawn(async move {
-        //     if let Err(error) = rpc_server_join_handle.await {
-        //         log::error!("Management server panic: {}", error);
-        //     }
-        //     // TODO: Should we communicate successful shutdown via a channel from here? Otherwise,
-        //     // how will anyone know that the gRPC server has been shutdown?
-        //     log::info!("Management interface shut down");
-        // });
-
-        // grpc_server.abort
-        // server_abort_tx.send(()).await;
-        // TODO: Call _close_handle.send(()) to gracefully drop the grPC-server!
         Ok((
             ManagementInterfaceEventBroadcaster { subscriptions },
             server,

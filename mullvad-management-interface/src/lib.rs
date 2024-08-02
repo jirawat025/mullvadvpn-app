@@ -164,11 +164,11 @@ pub fn spawn_rpc_server<T: ManagementService, F: Future<Output = ()> + Send + 's
     }
 
     Ok(tokio::spawn(async move {
-        Server::builder()
+        let rpc_server = Server::builder()
             .add_service(ManagementServiceServer::new(service))
-            .serve_with_incoming_shutdown(incoming.map_ok(StreamBox), abort_rx)
-            .await
-            .map_err(Error::GrpcTransportError)
+            .serve_with_incoming_shutdown(incoming.map_ok(StreamBox), abort_rx);
+        log::info!("gRPC server up and running!");
+        rpc_server.await.map_err(Error::GrpcTransportError)
     }))
 }
 
